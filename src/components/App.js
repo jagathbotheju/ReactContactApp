@@ -15,6 +15,8 @@ import api from "../api/contacts";
 function App() {
   //const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
+  const [searchTerm, setSerachTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   //*ADD contact to api
   const addContact = async (contact) => {
@@ -59,6 +61,22 @@ function App() {
     );
   };
 
+  //*Search handler
+  const searchHandler = (searchTerm) => {
+    setSerachTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newContactList = contacts.filter((contact) => {
+        return Object.values(contact)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+      setSearchResults(newContactList);
+    } else {
+      setSearchResults(contacts);
+    }
+  };
+
   useEffect(() => {
     getAllContacts();
   }, []);
@@ -73,7 +91,12 @@ function App() {
             path="/"
             exact
             render={(props) => (
-              <ContactList contacts={contacts} deleteContact={deleteContact} />
+              <ContactList
+                contacts={searchTerm.length < 1 ? contacts : searchResults}
+                deleteContact={deleteContact}
+                searchTerm={searchTerm}
+                searchHandler={searchHandler}
+              />
             )}
           />
           {/*AddContact */}

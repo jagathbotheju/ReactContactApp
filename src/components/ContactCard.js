@@ -7,7 +7,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 const ContactCard = ({ contact, deleteContact }) => {
   return (
     <>
-      <div className="card m-3 p-3 shadow">
+      <div className="card mt-3 shadow">
         <div className="d-flex align-items-center">
           <div className="m-2">
             <BsPerson className="fa-3x" size="4em" />
